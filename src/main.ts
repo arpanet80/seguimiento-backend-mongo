@@ -4,6 +4,17 @@ import { json } from 'express';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+
+  /*//////////// Para https ////////////////////////////
+  const httpsOptions = {
+    key: fs.readFileSync('./secrets/private-key.pem'),
+    cert: fs.readFileSync('./secrets/public-certificate.pem'),
+  };
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions,
+  });
+  *//////////////////////////////////////////
+  
   const app = await NestFactory.create(AppModule);
 
   // Habilita CORS
