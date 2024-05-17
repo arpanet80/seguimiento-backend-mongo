@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Tecnico } from './entities/tcnicosmongo.entity';
@@ -29,7 +29,9 @@ export class RecintosService {
       return { token: jwt};
     }
     else
-      return null;
+      throw new NotFoundException('Error en el proceso de login...');
+
+      // return null;
 
   }
 
