@@ -17,14 +17,16 @@ export class RecintosService {
 
 
    //////////////// PARA MOVIL //////////////////////////
-   async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<string> {
+   async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<any> {
 
     console.log(createUsuarioDto);
     
     const usr = await this.usuarioModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
 
     if (usr) {
-      return "Token";
+      // return "Token";
+      const llave = "Aquientra el token"
+      return { token: llave};
     }
     else
       return null;
