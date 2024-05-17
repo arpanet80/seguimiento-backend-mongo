@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { RecintosService } from './recintos.service';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
 
 @Controller('recintos')
@@ -11,6 +12,17 @@ export class RecintosController {
     return this.recintosService.findPersonalData(+idpersonal);
   }
 
+  @Post('/usuarios')
+  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+    return this.recintosService.findUsuario(createUsuarioDto);
+  }
+
+  /*
+  @Get('/usuarios/:usuario/:password')
+  findUsuario(@Param('usuario') usuario: string, @Param('password') password: string) {
+    return this.recintosService.findUsuario(usuario, password);
+  }
+*/
 
 /*  
   @Post()

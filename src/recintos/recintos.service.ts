@@ -3,18 +3,35 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Tecnico } from './entities/tcnicosmongo.entity';
 import { Recinto } from './entities/recintosmongo.entity';
+import { Usuario } from './entities/usuario.entity';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
 @Injectable()
 export class RecintosService {
 
   constructor(
     @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
-    @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>
+    @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
+    @InjectModel(Usuario.name) private usuarioModel: Model<Usuario>
   ) {}
 
 
    //////////////// PARA MOVIL //////////////////////////
-   async findPersonalData(idpersonal: number): Promise<Tecnico> {
+   async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<string> {
+
+    console.log(createUsuarioDto);
+    
+    const usr = await this.usuarioModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
+
+    if (usr) {
+      return "Token";
+    }
+    else
+      return null;
+
+  }
+
+  async findPersonalData(idpersonal: number): Promise<Tecnico> {
     
     const tecnico = await this.tecnnicoModel.findOne({idpersonal: idpersonal});
     const recintos = await this.recintoModel.find({ activo: true, grupodespliegue: tecnico.grupoactivo});
@@ -23,6 +40,7 @@ export class RecintosService {
     
     return tecnico;
   }
+
 
   /*
   create(createRecintoDto: CreateRecintoDto) {
