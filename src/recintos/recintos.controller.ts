@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { RecintosService } from './recintos.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
 
 
 @Controller('recintos')
@@ -15,6 +16,11 @@ export class RecintosController {
   @Post('/usuarios')
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.recintosService.findUsuario(createUsuarioDto);
+  }
+
+  @Post('/gpspoint')
+  createPoint(@Body() createGpsPointDto: CreateGpsPointDto) {
+    return this.recintosService.createPoint(createGpsPointDto);
   }
 
   /*

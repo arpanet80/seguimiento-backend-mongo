@@ -1,10 +1,13 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Timestamp } from 'rxjs';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Tecnico } from './entities/tcnicosmongo.entity';
 import { Recinto } from './entities/recintosmongo.entity';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { GpsPoit, PointDocument } from './entities/gps-point.entity';
+import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
 // import { JwtService } from '@nestjs/Jwt';
 
 @Injectable()
@@ -13,6 +16,7 @@ export class RecintosService {
   constructor(
     @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
     @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
+    @InjectModel(GpsPoit.name) private gpspointModel: Model<PointDocument>,
     // private jwtSvc: JwtService
   ) {}
 
@@ -36,6 +40,22 @@ export class RecintosService {
 
       // return null;
 
+  }
+
+  async createPoint(createGpsPointDto: CreateGpsPointDto): Promise<GpsPoit> {
+    
+    try {
+
+      const newPunto = new this.gpspointModel(createGpsPointDto);
+      newPunto.timestamp  = new Date(Date.now());
+      // console.log("========> ", newPunto);
+
+      return await newPunto.save();
+      
+    } catch (error) {
+      throw new HttpException('Error  interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
   }
 
   async findPersonalData(idpersonal: number): Promise<Tecnico> {
