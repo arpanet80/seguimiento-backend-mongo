@@ -5,7 +5,7 @@ import { Tecnico } from './entities/tcnicosmongo.entity';
 import { Recinto } from './entities/recintosmongo.entity';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { JwtService } from '@nestjs/Jwt';
+// import { JwtService } from '@nestjs/Jwt';
 
 @Injectable()
 export class RecintosService {
@@ -13,30 +13,23 @@ export class RecintosService {
   constructor(
     @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
     @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
-    // @InjectModel(Usuario.name) private usuarioModel: Model<Usuario>,
-    private jwtSvc: JwtService
+    // private jwtSvc: JwtService
   ) {}
 
 
    //////////////// PARA MOVIL //////////////////////////
    async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<any> {
 
-    // console.log(createUsuarioDto);
-    
-    // const usr = await this.usuarioModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
-    
     const tecnico = await this.tecnnicoModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
-
-    // console.log(tecnico);
 
     if (tecnico) {
       const payload = { sub: tecnico.idpersonal, nombres: tecnico.nombre, cedula: tecnico.cedula, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo  }
-      // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW50ZS5pYmFuZXoiLCJpZFVzdWFyaW8iOiIxIiwibm9tYnJlcyI6IkRhbnRlIE1hcnTDrW4gSWJhw7FleiBNYXJ0aW5leiIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJTZWNjacOzbiBkZSBUw6ljbm9sb2dpYXMiLCJjYXJnbyI6IkluZnJhZXN0cnVjdHVyYSB5IFNvcG9ydGUgVGVjbmljbyIsIm51bVJvbGVzIjoiMSIsImV4cCI6MTcxNTk2Mjc3OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJKQ2VydGlmaWNhY2lvblVzZXJzIn0.HNU-Wmpu8o8a8AwFz0VGUsJcGCPTYZC-dEcKMQzeTy4"
+      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW50ZS5pYmFuZXoiLCJpZFVzdWFyaW8iOiIxIiwibm9tYnJlcyI6IkRhbnRlIE1hcnTDrW4gSWJhw7FleiBNYXJ0aW5leiIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJTZWNjacOzbiBkZSBUw6ljbm9sb2dpYXMiLCJjYXJnbyI6IkluZnJhZXN0cnVjdHVyYSB5IFNvcG9ydGUgVGVjbmljbyIsIm51bVJvbGVzIjoiMSIsImV4cCI6MTcxNTk2Mjc3OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJKQ2VydGlmaWNhY2lvblVzZXJzIn0.HNU-Wmpu8o8a8AwFz0VGUsJcGCPTYZC-dEcKMQzeTy4"
       
-      return { 
+      /*return { 
         token: await this.jwtSvc.signAsync(payload)
-      };
-      // return { token: jwt};
+      };*/
+      return { token: jwt};
     }
     else
       throw new NotFoundException('Error en el proceso de login...');
