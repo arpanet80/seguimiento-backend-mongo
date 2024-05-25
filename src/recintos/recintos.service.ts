@@ -68,6 +68,11 @@ export class RecintosService {
     return tecnico;
   }
 
+  async findTecnicos(): Promise<Tecnico[]> {
+    
+    return await this.tecnnicoModel.find({activo: true});
+        
+  }
 
   /*
   create(createRecintoDto: CreateRecintoDto) {
