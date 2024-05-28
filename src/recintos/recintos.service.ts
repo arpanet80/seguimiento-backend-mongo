@@ -6,7 +6,7 @@ import { Recinto } from './entities/recintosmongo.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { GpsPoit, PointDocument } from './entities/gps-point.entity';
 import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
-import { JwtService } from '@nestjs/Jwt';
+// import { JwtService } from '@nestjs/Jwt';
 
 @Injectable()
 export class RecintosService {
@@ -15,7 +15,7 @@ export class RecintosService {
     @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
     @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
     @InjectModel(GpsPoit.name) private gpspointModel: Model<PointDocument>,
-    private jwtSvc: JwtService
+    // private jwtSvc: JwtService
   ) {}
 
 
@@ -28,10 +28,11 @@ export class RecintosService {
       const payload = { sub: tecnico.idpersonal, nombres: tecnico.nombre, cedula: tecnico.cedula, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: 1  }
       // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW50ZS5pYmFuZXoiLCJpZFVzdWFyaW8iOiIxIiwibm9tYnJlcyI6IkRhbnRlIE1hcnTDrW4gSWJhw7FleiBNYXJ0aW5leiIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJTZWNjacOzbiBkZSBUw6ljbm9sb2dpYXMiLCJjYXJnbyI6IkluZnJhZXN0cnVjdHVyYSB5IFNvcG9ydGUgVGVjbmljbyIsIm51bVJvbGVzIjoiMSIsImV4cCI6MTcxNTk2Mjc3OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJKQ2VydGlmaWNhY2lvblVzZXJzIn0.HNU-Wmpu8o8a8AwFz0VGUsJcGCPTYZC-dEcKMQzeTy4"
       // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYW9sYS5yb2RyaWd1ZXoiLCJpZFVzdWFyaW8iOiIxMSIsIm5vbWJyZXMiOiJQYW9sYSBSb2RyaWd1ZXogVXJxdWl6dSIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJBcG95byBTYWxhIFBsZW5hIiwiY2FyZ28iOiJTZWNyZXRhcmlhIGRlIFByZXNpZGVuY2lhIiwibnVtUm9sZXMiOiIxIiwiZXhwIjoxNzE2NTM2NzYxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyIsImF1ZCI6IkpDZXJ0aWZpY2FjaW9uVXNlcnMifQ.JwHw8WEaaDx6FbdlKt_LnA_xztdXfOLKxyaQZU0QB9o";
-      return { 
-        token: await this.jwtSvc.signAsync(payload)
-      };
-      // return { token: jwt};
+      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsIm5vbWJyZXMiOiJKVUFOIEFMQkVSVE8gUEVSRVogUEVSRVoiLCJjZWR1bGEiOiIzMjY1NDg3IiwiY2FyZ28iOiJQT1IgR0VTVElPTkFSIiwiZ3J1cG9hY3Rpdm8iOjEsImlkUm9sIjoxLCJpYXQiOjE3MTY5MDI3NTgsImV4cCI6MTcxOTQ5NDc1OH0.XOKIpwoTFqDTw5Gr9DOhgRMUPhSUvnC9tOXLee8nXTU";
+      // return { 
+      //   token: await this.jwtSvc.signAsync(payload)
+      // };
+      return { token: jwt};
     }
     else
       throw new NotFoundException('Error en el proceso de login...');
