@@ -23,22 +23,17 @@ export class RecintosService {
    async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<any> {
 
     const tecnico = await this.tecnnicoModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
-
+    tecnico.idRol = 1;
     if (tecnico) {
-      const payload = { sub: tecnico.idpersonal, nombres: tecnico.nombre, cedula: tecnico.cedula, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: 1  }
-      // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW50ZS5pYmFuZXoiLCJpZFVzdWFyaW8iOiIxIiwibm9tYnJlcyI6IkRhbnRlIE1hcnTDrW4gSWJhw7FleiBNYXJ0aW5leiIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJTZWNjacOzbiBkZSBUw6ljbm9sb2dpYXMiLCJjYXJnbyI6IkluZnJhZXN0cnVjdHVyYSB5IFNvcG9ydGUgVGVjbmljbyIsIm51bVJvbGVzIjoiMSIsImV4cCI6MTcxNTk2Mjc3OCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzExMy8iLCJhdWQiOiJKQ2VydGlmaWNhY2lvblVzZXJzIn0.HNU-Wmpu8o8a8AwFz0VGUsJcGCPTYZC-dEcKMQzeTy4"
-      // const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYW9sYS5yb2RyaWd1ZXoiLCJpZFVzdWFyaW8iOiIxMSIsIm5vbWJyZXMiOiJQYW9sYSBSb2RyaWd1ZXogVXJxdWl6dSIsInNpc3RlbWEiOiJDb250cmF0YWNpb25lcyIsImlkUm9sIjoiMSIsInNlY2Npb24iOiJBcG95byBTYWxhIFBsZW5hIiwiY2FyZ28iOiJTZWNyZXRhcmlhIGRlIFByZXNpZGVuY2lhIiwibnVtUm9sZXMiOiIxIiwiZXhwIjoxNzE2NTM2NzYxLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTEzLyIsImF1ZCI6IkpDZXJ0aWZpY2FjaW9uVXNlcnMifQ.JwHw8WEaaDx6FbdlKt_LnA_xztdXfOLKxyaQZU0QB9o";
-      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsIm5vbWJyZXMiOiJKVUFOIEFMQkVSVE8gUEVSRVogUEVSRVoiLCJjZWR1bGEiOiIzMjY1NDg3IiwiY2FyZ28iOiJQT1IgR0VTVElPTkFSIiwiZ3J1cG9hY3Rpdm8iOjEsImlkUm9sIjoxLCJpYXQiOjE3MTY5MDI3NTgsImV4cCI6MTcxOTQ5NDc1OH0.XOKIpwoTFqDTw5Gr9DOhgRMUPhSUvnC9tOXLee8nXTU";
+      const payload = { sub: tecnico.idpersonal, nombres: tecnico.nombre, cedula: tecnico.cedula, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: tecnico.idRol  }
+      const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsIm5vbWJyZXMiOiJEQU5URSBJQkFORVogTUFSVElORVoiLCJjZWR1bGEiOiIzOTgxNzY3IiwiY2FyZ28iOiJQT1IgR0VTVElPTkFSIiwiZ3J1cG9hY3Rpdm8iOjUsImlkUm9sIjoxLCJpYXQiOjE3MTY5OTI0OTQsImV4cCI6MTc0ODUyODQ5NH0.1DD-li-BOZf94f-XepkzkfhKDOa8Ug13VuKY-hlCsQ8"
       // return { 
       //   token: await this.jwtSvc.signAsync(payload)
       // };
-      return { token: jwt};
+      return { token: jwt, idPersonal: tecnico.idpersonal, nombres: tecnico.nombre, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: tecnico.idRol };
     }
     else
       throw new NotFoundException('Error en el proceso de login...');
-
-      // return null;
-
   }
 
   async createPoint(createGpsPointDto: CreateGpsPointDto): Promise<GpsPoit> {

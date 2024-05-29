@@ -30,6 +30,10 @@ export class CreateTecnicoMongoDto {
     @IsArray()
     recintos?: Recinto[];
 
+    @IsOptional()
+    @IsArray()
+    tecnico?: number;
+
 
     
 }

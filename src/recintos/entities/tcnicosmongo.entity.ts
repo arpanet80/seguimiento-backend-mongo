@@ -33,6 +33,9 @@ export class Tecnico {
     @Prop()
     password: string;
 
+    @Prop()
+    idRol: number;
+
 }
 
 export const TecnicoSchema = SchemaFactory.createForClass(Tecnico);

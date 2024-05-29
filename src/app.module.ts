@@ -5,18 +5,20 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SocketModule } from './socket/socket.module';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RecintosModule,
     // MongooseModule.forRoot('mongodb+srv://arpanet80:Dante2011@clusterdespliegue.jmodcqi.mongodb.net/despliegueted'),
     MongooseModule.forRoot( process.env.MONGODB),
-    RecintosModule,
-    SocketModule
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [],
+  exports: [],
 })
 export class AppModule {
 
