@@ -30,7 +30,7 @@ export class RecintosService {
       // return { 
       //   token: await this.jwtSvc.signAsync(payload)
       // };
-      return { token: jwt, idPersonal: tecnico.idpersonal, nombres: tecnico.nombre, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: tecnico.idRol };
+      return { token: jwt, idUsuario: tecnico.idpersonal, nombres: tecnico.nombre, cargo: tecnico.cargo,grupoactivo: tecnico.grupoactivo, idrol: tecnico.idRol };
     }
     else
       throw new NotFoundException('Error en el proceso de login...');
