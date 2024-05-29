@@ -29,7 +29,8 @@ export class SocketGateway implements OnModuleInit{
       // console.log({ name, token });
 
       // Agregar cliente al listaod
-      this.socketService.onClientConnected( { idUsuario: socket.id, nombre: name});
+      // this.socketService.onClientConnected( { idUsuario: socket.id, nombre: name});
+      this.socketService.onClientConnected( { idUsuario: token, nombre: name});
 
       // Mensaje de bienvenida
       // socket.emit('welcome-message', 'Binevenido al servidor');
@@ -38,7 +39,8 @@ export class SocketGateway implements OnModuleInit{
       this.server.emit('on-clients-changed', this.socketService.getClients() );
 
       socket.on('disconnect', () => {
-        this.socketService.onClientDisconnected( socket.id );
+        // this.socketService.onClientDisconnected( socket.id );
+        this.socketService.onClientDisconnected( token );
         this.server.emit('on-clients-changed', this.socketService.getClients() );
         // console.log('Cliente desconectado: ', socket.id);
       })
