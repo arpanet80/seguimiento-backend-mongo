@@ -23,7 +23,6 @@ export class RecintosService {
    async findUsuario(createUsuarioDto: CreateUsuarioDto): Promise<any> {
 
     const tecnico = await this.tecnnicoModel.findOne({usuario: createUsuarioDto.usuario, password: createUsuarioDto.password, activo: true});
-    // tecnico.idrol = 1;
     if (tecnico) {
       const payload = { sub: tecnico.idpersonal, nombres: tecnico.nombre, cedula: tecnico.cedula, cargo: tecnico.cargo, grupoactivo: tecnico.grupoactivo, idRol: tecnico.idrol  }
       const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsIm5vbWJyZXMiOiJEQU5URSBJQkFORVogTUFSVElORVoiLCJjZWR1bGEiOiIzOTgxNzY3IiwiY2FyZ28iOiJQT1IgR0VTVElPTkFSIiwiZ3J1cG9hY3Rpdm8iOjUsImlkUm9sIjoxLCJpYXQiOjE3MTY5OTI0OTQsImV4cCI6MTc0ODUyODQ5NH0.1DD-li-BOZf94f-XepkzkfhKDOa8Ug13VuKY-hlCsQ8"
