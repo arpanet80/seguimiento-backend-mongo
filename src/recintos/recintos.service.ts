@@ -57,7 +57,7 @@ export class RecintosService {
 
     try {
 
-      const puntos = await this.gpspointModel.find({idUsuario: idusuario}).sort({ timestamp: -1 }).limit(5);   // Los ultimos 20
+      const puntos = await this.gpspointModel.find({idUsuario: idusuario}).sort({ timestamp: -1 }).limit(50);   // Los ultimos 20
 
       return puntos;
 
