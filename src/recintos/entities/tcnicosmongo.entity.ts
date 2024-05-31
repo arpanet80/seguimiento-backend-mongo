@@ -34,7 +34,7 @@ export class Tecnico {
     password: string;
 
     @Prop()
-    idRol: number;
+    idrol: number;
 
 }
 
