@@ -52,6 +52,21 @@ export class RecintosService {
     
   }
 
+  
+  async findGpsPoints(idusuario: number): Promise<GpsPoit[]> {
+
+    try {
+
+      const puntos = await this.gpspointModel.find({idUsuario: idusuario}).sort({ timestamp: -1 }).limit(5);   // Los ultimos 20
+
+      return puntos;
+
+    } catch (error) {
+      throw new HttpException('Error interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+       
+  }
+
   async findPersonalData(idpersonal: number): Promise<Tecnico> {
     
     const tecnico = await this.tecnnicoModel.findOne({idpersonal: idpersonal});

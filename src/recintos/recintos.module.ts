@@ -13,6 +13,7 @@ import { GpsPoit, GpsPoitSchema } from './entities/gps-point.entity';
     MongooseModule.forFeature([{ name: Recinto.name, schema: RecintoSchema }]),
     MongooseModule.forFeature([{ name: Tecnico.name, schema: TecnicoSchema }]),
     MongooseModule.forFeature([{ name: GpsPoit.name, schema: GpsPoitSchema }]),
+    MongooseModule.forFeature([{ name: GpsPoit.name, schema: GpsPoitSchema }]),
 
     /////////////////////////////////////////////////////////////////////
     /// AL HACER BUILD EN DOCKER DA ERROR:

@@ -23,6 +23,12 @@ export class RecintosController {
     return this.recintosService.createPoint(createGpsPointDto);
   }
 
+  @Get('gpspoint/:idusuario')
+  findGpsPoints(@Param('idusuario') idusuario: number) {
+    return this.recintosService.findGpsPoints(+idusuario);
+  }
+
+
   @Get('/tecnicos/todos')
   findTecnicos() {
     return this.recintosService.findTecnicos();
