@@ -6,6 +6,9 @@ import { Recinto } from './entities/recintosmongo.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { GpsPoit, PointDocument } from './entities/gps-point.entity';
 import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
+import { SeguimientoRecintoDto } from './dto/seguimiento-recinto.dto';
+import { SeguimDocument, SeguimLogDocument, SeguimientoRecinto, SeguimientoRecintoLog } from './entities/seguimiento-recinto.entity';
+import internal from 'stream';
 // import { JwtService } from '@nestjs/Jwt';
 
 @Injectable()
@@ -15,6 +18,8 @@ export class RecintosService {
     @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
     @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
     @InjectModel(GpsPoit.name) private gpspointModel: Model<PointDocument>,
+    @InjectModel(SeguimientoRecinto.name) private seguimientoRecintoModel: Model<SeguimDocument>,
+    @InjectModel(SeguimientoRecintoLog.name) private seguimientoRecintoLogModel: Model<SeguimLogDocument>,
     // private jwtSvc: JwtService
   ) {}
 
@@ -81,6 +86,51 @@ export class RecintosService {
     return await this.tecnnicoModel.find({activo: true});
         
   }
+
+  
+  async createSeguimientoRecinto(seguimientoRecintoDto: SeguimientoRecintoDto): Promise<SeguimientoRecinto> {
+    
+    try {
+
+      const newSeg = new this.seguimientoRecintoModel(seguimientoRecintoDto);
+      const newSegLog = new this.seguimientoRecintoLogModel(seguimientoRecintoDto);
+      await newSegLog.save();
+
+      const seguim = await this.seguimientoRecintoModel.findOne({idrecinto: newSeg.idrecinto});  
+      if (seguim) {
+        seguim.estado = newSeg.estado;
+        return await seguim.save();
+
+      } else {
+        return await newSeg.save();
+      }
+
+      // newSeg.timestamp  = new Date(Date.now());
+
+            
+    } catch (error) {
+      throw new HttpException('Error  interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+  }
+
+  
+  async findSeguimientoRecintoGetEstado(idrecinto: number): Promise<any> {
+
+    try {
+
+      const seguim = await this.seguimientoRecintoModel.findOne({idrecinto: idrecinto});
+
+      return { estado: seguim.estado }
+
+    } catch (error) {
+      throw new HttpException('Error interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+       
+  }
+
+
+
 
   /*
   create(createRecintoDto: CreateRecintoDto) {

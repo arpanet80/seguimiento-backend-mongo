@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RecintosService } from './recintos.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
+import { SeguimientoRecintoDto } from './dto/seguimiento-recinto.dto';
 
 
 @Controller('recintos')
@@ -33,6 +34,18 @@ export class RecintosController {
   findTecnicos() {
     return this.recintosService.findTecnicos();
   }
+
+  
+  @Post('/seguimiento')
+  createSeguimientoRecinto(@Body() seguimientoRecintoDto: SeguimientoRecintoDto) {
+    return this.recintosService.createSeguimientoRecinto(seguimientoRecintoDto);
+  }
+
+  @Get('seguimiento/estado/:idrecinto')
+  findSeguimientoRecintoGetEstado(@Param('idrecinto') idrecinto: number) {
+    return this.recintosService.findSeguimientoRecintoGetEstado(+idrecinto);
+  }
+
 
 
   /*
