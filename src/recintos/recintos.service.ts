@@ -90,17 +90,26 @@ export class RecintosService {
   async createSeguimientoRecinto(seguimientoRecintoDto: SeguimientoRecintoDto): Promise<SeguimientoRecinto> {
     
     try {
-
+      
       const newSeg = new this.seguimientoRecintoModel(seguimientoRecintoDto);
       const newSegLog = new this.seguimientoRecintoLogModel(seguimientoRecintoDto);
-      await newSegLog.save();
-
+      
       const seguim = await this.seguimientoRecintoModel.findOne({idrecinto: newSeg.idrecinto});  
       if (seguim) {
-        seguim.estado = newSeg.estado;
+        
+        newSegLog.estado = 2;
+        await newSegLog.save();
+
+        seguim.estado = 2;    // Estado devuelto
         return await seguim.save();
 
       } else {
+
+        newSegLog.estado = 1;
+        await newSegLog.save();
+
+        newSeg.estado = 1;    // Estado entregado en el primer registro
+
         return await newSeg.save();
       }
 
@@ -119,31 +128,23 @@ export class RecintosService {
     try {
 
       const seguim = await this.seguimientoRecintoModel.findOne({idrecinto: idrecinto});
-      
-      return { estado: seguim.estado }
-      
+
+
+      if (seguim) {
+        return { estado: seguim.estado }
+      }
+      else {
+        return {estado: 0}
+      }
+
+
     } catch (error) {
       throw new HttpException('Error interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
     }
         
   }
 
-  
 
-  async obtenerIdsRecintos(grupo: number): Promise<number[]> {
-    const recintosTodos = await this.recintoModel.find({grupodespliegue: grupo,activo: true});
-    return recintosTodos.map(recinto => Number( recinto.idrecinto) );
-  }
-
-  async comparaRecintoTecnicoConSeguimiento(idrecintoTecnico: number, seguimientoRecinto: SeguimientoRecinto[]): Promise<any> {
-
-    seguimientoRecinto.find(x => x.idrecinto)
-    if (seguimientoRecinto) 
-      return true;
-    else
-      return false
-  }
-        
   async findTecnicosConResumen(): Promise<any> {
           
     try {
