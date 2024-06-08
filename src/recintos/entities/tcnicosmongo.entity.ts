@@ -24,6 +24,9 @@ export class Tecnico {
     cedula: string;
 
     @Prop()
+    celular: string;
+
+    @Prop()
     cargo: string;
 
     @Prop()
