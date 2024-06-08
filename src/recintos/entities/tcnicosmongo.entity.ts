@@ -3,6 +3,14 @@ import { Recinto } from "./recintosmongo.entity";
 
 // export type CatDocument = HydratedDocument<Recinto>;
 
+export interface TecnociConResumen {
+    recintosTotal: number,
+    recintosEntregado: number,
+    recintosRecoger: number,
+    tenicos: Tecnico[]
+
+}
+
 @Schema()
 export class Tecnico {
 
@@ -35,6 +43,12 @@ export class Tecnico {
 
     @Prop()
     idrol: number;
+
+    @Prop()
+    recintosentregado: number;
+    
+    @Prop()
+    recintosrecogido: number;
 
 }
 

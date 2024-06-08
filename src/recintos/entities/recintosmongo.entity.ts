@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 // export type CatDocument = HydratedDocument<Recinto>;
+export type RecintoDocument = Recinto & Document       // Para que nos de los metodos de save update etc
 
 @Schema()
 export class Recinto {
-    // id: number;
+    id: number;
 
     @Prop()
     departamento: string;
@@ -44,6 +45,9 @@ export class Recinto {
 
     @Prop()
     idproceso: number;
+
+    @Prop()
+    idrecinto: number;
 
     @Prop()
     codimporte: number;

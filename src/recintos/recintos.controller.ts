@@ -35,8 +35,13 @@ export class RecintosController {
     return this.recintosService.findTecnicos();
   }
 
-  
-  @Post('/seguimiento')
+
+  @Get('tecnicos/conresumen')
+  findTecnicosConResumen() {
+    return this.recintosService.findTecnicosConResumen();
+  }
+
+    @Post('/seguimiento')
   createSeguimientoRecinto(@Body() seguimientoRecintoDto: SeguimientoRecintoDto) {
     return this.recintosService.createSeguimientoRecinto(seguimientoRecintoDto);
   }
@@ -46,41 +51,6 @@ export class RecintosController {
     return this.recintosService.findSeguimientoRecintoGetEstado(+idrecinto);
   }
 
-
-
-  /*
-  @Get('/usuarios/:usuario/:password')
-  findUsuario(@Param('usuario') usuario: string, @Param('password') password: string) {
-    return this.recintosService.findUsuario(usuario, password);
-  }
-*/
-
-/*  
-  @Post()
-  create(@Body() createRecintoDto: CreateRecintoDto) {
-    return this.recintosService.create(createRecintoDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.recintosService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recintosService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecintoDto: UpdateRecintoDto) {
-    return this.recintosService.update(+id, updateRecintoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.recintosService.remove(+id);
-  }
-
-  */
+  
 
 }

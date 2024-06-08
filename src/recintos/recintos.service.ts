@@ -1,21 +1,20 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Tecnico } from './entities/tcnicosmongo.entity';
-import { Recinto } from './entities/recintosmongo.entity';
+import { Tecnico, TecnociConResumen } from './entities/tcnicosmongo.entity';
+import { Recinto, RecintoDocument } from './entities/recintosmongo.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { GpsPoit, PointDocument } from './entities/gps-point.entity';
 import { CreateGpsPointDto } from './dto/create-gpspoit.dto';
 import { SeguimientoRecintoDto } from './dto/seguimiento-recinto.dto';
 import { SeguimDocument, SeguimLogDocument, SeguimientoRecinto, SeguimientoRecintoLog } from './entities/seguimiento-recinto.entity';
-import internal from 'stream';
 // import { JwtService } from '@nestjs/Jwt';
 
 @Injectable()
 export class RecintosService {
   
   constructor(
-    @InjectModel(Recinto.name) private recintoModel: Model<Recinto>,
+    @InjectModel(Recinto.name) private recintoModel: Model<RecintoDocument>,
     @InjectModel(Tecnico.name) private tecnnicoModel: Model<Tecnico>,
     @InjectModel(GpsPoit.name) private gpspointModel: Model<PointDocument>,
     @InjectModel(SeguimientoRecinto.name) private seguimientoRecintoModel: Model<SeguimDocument>,
@@ -120,8 +119,76 @@ export class RecintosService {
     try {
 
       const seguim = await this.seguimientoRecintoModel.findOne({idrecinto: idrecinto});
-
+      
       return { estado: seguim.estado }
+      
+    } catch (error) {
+      throw new HttpException('Error interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+        
+  }
+
+  
+
+  async obtenerIdsRecintos(grupo: number): Promise<number[]> {
+    const recintosTodos = await this.recintoModel.find({grupodespliegue: grupo,activo: true});
+    return recintosTodos.map(recinto => Number( recinto.idrecinto) );
+  }
+
+  async comparaRecintoTecnicoConSeguimiento(idrecintoTecnico: number, seguimientoRecinto: SeguimientoRecinto[]): Promise<any> {
+
+    seguimientoRecinto.find(x => x.idrecinto)
+    if (seguimientoRecinto) 
+      return true;
+    else
+      return false
+  }
+        
+  async findTecnicosConResumen(): Promise<any> {
+          
+    try {
+      const tecnicosTodos = await this.tecnnicoModel.find({activo: true});
+      const recintosTodos = await this.recintoModel.find({activo: true});
+      const seguimientoRecinto = await this.seguimientoRecintoModel.find();
+
+      const entregadosTotal = seguimientoRecinto.filter(x => x.estado == 1).length;
+      const recogidosTotal = seguimientoRecinto.filter(x => x.estado == 2).length;
+
+      
+      /// Recorre todos los tecnicos
+      for (let tecnico in tecnicosTodos) {
+
+        let entregado = 0;
+        let recogido = 0;
+
+        //// Recorre todos los recintos del tecnico
+        tecnicosTodos[tecnico]["recintos"].forEach(element => {
+          
+          /// Busca si existe el recinto en la tabla de seguimiento
+          let seg = seguimientoRecinto.find(x => x.idrecinto == element.id)
+          
+          if (seg) {
+            if (seg.estado == 1.) 
+              entregado++;
+            else
+              recogido++;
+          }
+          
+        });
+
+        tecnicosTodos[tecnico]["recintosentregado"] = entregado;
+        tecnicosTodos[tecnico]["recintosrecogido"] = recogido;
+        
+      }
+
+      const tecnicosResumen: TecnociConResumen = {
+        recintosTotal: recintosTodos.length,
+        recintosEntregado: entregadosTotal,
+        recintosRecoger: recogidosTotal,
+        tenicos: tecnicosTodos
+      }
+
+      return tecnicosResumen;
 
     } catch (error) {
       throw new HttpException('Error interno de servidor', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -132,26 +199,4 @@ export class RecintosService {
 
 
 
-  /*
-  create(createRecintoDto: CreateRecintoDto) {
-    return 'This action adds a new recinto';
-  }
-
-  findAll() {
-    return `This action returns all recintos`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} recinto`;
-  }
-
-  update(id: number, updateRecintoDto: UpdateRecintoDto) {
-    return `This action updates a #${id} recinto`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} recinto`;
-  }
-
-  */
 }
