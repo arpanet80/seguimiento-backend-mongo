@@ -131,6 +131,7 @@ export class RecintosService {
 
 
       if (seguim) {
+        return { seguim }
         return { estado: seguim.estado }
       }
       else {
