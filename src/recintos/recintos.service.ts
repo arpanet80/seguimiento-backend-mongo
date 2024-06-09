@@ -135,7 +135,7 @@ export class RecintosService {
         return { estado: seguim.estado }
       }
       else {
-        return {estado: 0}
+        return {seguim: { estado: 0 }}
       }
 
 
