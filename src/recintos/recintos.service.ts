@@ -180,6 +180,7 @@ export class RecintosService {
 
         tecnicosTodos[tecnico]["recintosentregado"] = entregado;
         tecnicosTodos[tecnico]["recintosrecogido"] = recogido;
+        tecnicosTodos[tecnico]["estadoconexion"] = false;
         
       }
 

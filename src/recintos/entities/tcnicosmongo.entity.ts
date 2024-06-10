@@ -53,6 +53,9 @@ export class Tecnico {
     @Prop()
     recintosrecogido: number;
 
+    @Prop()
+    estadoconexion: boolean
+
 }
 
 export const TecnicoSchema = SchemaFactory.createForClass(Tecnico);
